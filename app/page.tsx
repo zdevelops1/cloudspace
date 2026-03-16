@@ -223,11 +223,11 @@ export default function Home() {
       {toolsOpen && (
         <>
           <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" onClick={() => setToolsOpen(false)} />
-          <div className="fixed z-50 w-[780px] h-[540px] rounded-3xl bg-white shadow-2xl" style={{top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+          <div className="fixed z-50 w-[720px] h-[680px] rounded-3xl bg-white shadow-2xl flex flex-col" style={{top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
             {/* Header */}
-            <div className="relative flex items-center justify-center px-16 pt-10 pb-8">
-              <h2 className="text-[26px] font-bold text-[#1a1a2e]">Cloudspace Tools</h2>
-              <button onClick={() => setToolsOpen(false)} className="absolute right-10 top-10 flex h-[36px] w-[36px] items-center justify-center rounded-full text-black/40 transition-colors hover:bg-black/5 hover:text-black/70">
+            <div className="relative flex items-center justify-center px-10 pt-10 pb-8">
+              <h2 className="text-[28px] font-bold text-[#1a1a2e]">Cloudspace Tools</h2>
+              <button onClick={() => setToolsOpen(false)} className="absolute right-8 top-8 flex h-[36px] w-[36px] items-center justify-center rounded-full text-black/40 transition-colors hover:bg-black/5 hover:text-black/70">
                 <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
                   <line x1="4" y1="4" x2="14" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   <line x1="14" y1="4" x2="4" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -236,17 +236,33 @@ export default function Home() {
             </div>
 
             {/* Search bar */}
-            <div className="mx-20 mb-6">
-              <div className="flex items-center gap-3 rounded-2xl border border-black/[0.08] bg-[#f5f5f7] px-5 py-4">
-                <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
-                  <circle cx="7.5" cy="7.5" r="5.5" stroke="#999" strokeWidth="1.8" />
-                  <line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#999" strokeWidth="1.8" strokeLinecap="round" />
+            <div className="mx-16 mb-10">
+              <div className="flex items-center gap-3 rounded-xl border border-black/[0.06] bg-[#f2f3f5] px-5 py-3.5">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <circle cx="7.5" cy="7.5" r="5.5" stroke="#aaa" strokeWidth="1.8" />
+                  <line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#aaa" strokeWidth="1.8" strokeLinecap="round" />
                 </svg>
                 <input
                   type="text"
                   placeholder="Search Cloudspace tools..."
-                  className="flex-1 bg-transparent text-[16px] text-[#1a1a2e] placeholder-black/30 outline-none"
+                  className="flex-1 bg-transparent text-[15px] text-[#1a1a2e] placeholder-black/25 outline-none"
                 />
+              </div>
+            </div>
+
+            {/* Tools Grid — 5 columns */}
+            <div className="overflow-y-auto px-10 pb-8">
+              <div className="flex flex-wrap gap-y-6" style={{gap: '0px 0px'}}>
+                {/* Inbox */}
+                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105">
+                  <Image src="/images/tool-inbox.png" alt="Inbox" width={128} height={128} unoptimized style={{width: '128px', height: '128px'}} className="object-contain" />
+                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-38px'}}>Inbox</span>
+                </div>
+                {/* Drive */}
+                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" style={{marginLeft: '-38px'}}>
+                  <Image src="/images/tool-drive.png" alt="Drive" width={128} height={128} unoptimized style={{width: '128px', height: '128px'}} className="object-contain" />
+                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-38px'}}>Drive</span>
+                </div>
               </div>
             </div>
           </div>
