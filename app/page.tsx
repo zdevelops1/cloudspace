@@ -223,7 +223,33 @@ export default function Home() {
       {toolsOpen && (
         <>
           <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" onClick={() => setToolsOpen(false)} />
-          <div className="fixed z-50 w-[600px] h-[500px] rounded-2xl bg-white shadow-2xl" style={{top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}} />
+          <div className="fixed z-50 w-[780px] h-[540px] rounded-3xl bg-white shadow-2xl" style={{top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+            {/* Header */}
+            <div className="relative flex items-center justify-center px-16 pt-10 pb-8">
+              <h2 className="text-[26px] font-bold text-[#1a1a2e]">Cloudspace Tools</h2>
+              <button onClick={() => setToolsOpen(false)} className="absolute right-10 top-10 flex h-[36px] w-[36px] items-center justify-center rounded-full text-black/40 transition-colors hover:bg-black/5 hover:text-black/70">
+                <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
+                  <line x1="4" y1="4" x2="14" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="14" y1="4" x2="4" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Search bar */}
+            <div className="mx-20 mb-6">
+              <div className="flex items-center gap-3 rounded-2xl border border-black/[0.08] bg-[#f5f5f7] px-5 py-4">
+                <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
+                  <circle cx="7.5" cy="7.5" r="5.5" stroke="#999" strokeWidth="1.8" />
+                  <line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#999" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search Cloudspace tools..."
+                  className="flex-1 bg-transparent text-[16px] text-[#1a1a2e] placeholder-black/30 outline-none"
+                />
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>
