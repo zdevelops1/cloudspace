@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function Home() {
+  const [toolsOpen, setToolsOpen] = useState(false);
+
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (e.ctrlKey) e.preventDefault();
@@ -98,7 +100,7 @@ export default function Home() {
       <div className="z-20" style={{position: 'absolute', top: '104px', left: '50%', transform: 'translateX(-50%)'}}>
         {/* Outer glow */}
         <div className="absolute -inset-3 rounded-[60px] bg-[#b4dcff]/50 blur-[12px]" />
-        <button className="relative w-[260px] h-[90px] flex items-center justify-center overflow-hidden rounded-full border-2 border-white bg-gradient-to-b from-[#e8f4ff] to-[#b8d8f8] shadow-[0_8px_32px_rgba(144,202,249,0.35)]">
+        <button onClick={() => setToolsOpen(!toolsOpen)} className="relative w-[260px] h-[90px] flex items-center justify-center overflow-hidden rounded-full border-2 border-white bg-gradient-to-b from-[#e8f4ff] to-[#b8d8f8] shadow-[0_8px_32px_rgba(144,202,249,0.35)]">
           {/* Inner highlight */}
           <div className="absolute left-1/2 top-[6px] h-[16px] w-[180px] -translate-x-1/2 rounded-full bg-white/70" />
           <span className="relative text-[22px] font-bold tracking-[0.05em] text-[#1a3a6e]">
@@ -216,6 +218,14 @@ export default function Home() {
           </button>
         </div>
       </div>
+
+      {/* TOOLS Modal */}
+      {toolsOpen && (
+        <>
+          <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" onClick={() => setToolsOpen(false)} />
+          <div className="fixed z-50 w-[600px] h-[500px] rounded-2xl bg-white shadow-2xl" style={{top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}} />
+        </>
+      )}
     </div>
   );
 }
