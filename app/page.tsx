@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [toolsOpen, setToolsOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -254,7 +256,7 @@ export default function Home() {
             <div className="overflow-y-auto px-10 pb-8">
               <div className="flex flex-wrap gap-y-6" style={{gap: '0px 0px'}}>
                 {/* Inbox */}
-                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105">
+                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" onClick={() => router.push('/inbox')}>
                   <Image src="/images/tool-inbox.png" alt="Inbox" width={128} height={128} unoptimized style={{width: '128px', height: '128px'}} className="object-contain" />
                   <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-38px'}}>Inbox</span>
                 </div>
