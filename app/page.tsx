@@ -167,12 +167,19 @@ export default function Home() {
       </div>
 
       {/* BOTTOM BAR — floating centered input */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 w-[680px]">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 w-[880px]">
         {/* Floating input pill */}
         <div
-          className="flex items-center h-[52px] rounded-full px-2 gap-2"
+          className="flex items-center h-[56px] rounded-full pl-8 pr-6 gap-3"
           style={{ background: "linear-gradient(to bottom, rgba(26,58,110,0.82), rgba(13,32,64,0.92))", backdropFilter: "blur(24px)", border: "1px solid rgba(255,255,255,0.15)" }}
         >
+          {/* Agent Selector Pill */}
+          <div className="flex shrink-0 cursor-pointer items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-3.5 py-[7px] transition-colors hover:border-white/35">
+            <span className="h-[10px] w-[10px] shrink-0 rounded-full bg-[#4fc3f7]" />
+            <span className="whitespace-nowrap text-[13px] font-normal text-white/90">Agent Alpha</span>
+            <span className="ml-0.5 text-[11px] text-white/40">&#9662;</span>
+          </div>
+
           {/* Attach (+) */}
           <button className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.08] transition-colors hover:border-white/40 hover:bg-white/10">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
