@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-type Tool = { id: string; label: string; icon: string; route?: string };
+type Tool = { id: string; label: string; icon: string; route?: string; iconScale?: number };
 
 const DEFAULT_TOOLS: Tool[] = [
   { id: "inbox", label: "Inbox", icon: "/images/tool-inbox.png", route: "/inbox" },
@@ -12,6 +12,12 @@ const DEFAULT_TOOLS: Tool[] = [
   { id: "teams", label: "Teams", icon: "/images/teams-icon.png" },
   { id: "tasks", label: "Tasks", icon: "/images/tasks-icon.png" },
   { id: "analytics", label: "Analytics", icon: "/images/analytics-icon.png" },
+  { id: "docs", label: "Docs", icon: "/images/docs-icon.png", iconScale: 1.35 },
+  { id: "sheets", label: "Sheets", icon: "/images/sheets-icon.png", iconScale: 1.35 },
+  { id: "slides", label: "Slides", icon: "/images/slides-icon.png" },
+  { id: "forms", label: "Forms", icon: "/images/forms-icon.png" },
+  { id: "meet", label: "Meet", icon: "/images/meet-icon.png" },
+  { id: "crm", label: "CRM", icon: "/images/crm-icon.png" },
 ];
 
 function loadToolOrder(): Tool[] {
@@ -147,7 +153,7 @@ export default function Home() {
       <div className="z-20" style={{position: 'absolute', top: '104px', left: '50%', transform: 'translateX(-50%)'}}>
         {/* Outer glow */}
         <div className="absolute -inset-3 rounded-[60px] bg-[#b4dcff]/50 blur-[12px]" />
-        <button onClick={() => setToolsOpen(!toolsOpen)} className="relative w-[260px] h-[90px] flex items-center justify-center overflow-hidden rounded-full border-2 border-white bg-gradient-to-b from-[#e8f4ff] to-[#b8d8f8] shadow-[0_8px_32px_rgba(144,202,249,0.35)]">
+        <button onClick={() => setToolsOpen(!toolsOpen)} className="relative w-[260px] h-[90px] flex items-center justify-center overflow-hidden rounded-full border-2 border-white bg-gradient-to-b from-[#e8f4ff] to-[#b8d8f8] shadow-[0_8px_32px_rgba(144,202,249,0.35)] transition-all duration-150 ease-out hover:scale-[1.03] hover:brightness-105 hover:shadow-[0_10px_40px_rgba(144,202,249,0.5)] active:scale-[0.95] active:brightness-100 active:shadow-[0_4px_16px_rgba(144,202,249,0.25)]">
           {/* Inner highlight */}
           <div className="absolute left-1/2 top-[6px] h-[16px] w-[180px] -translate-x-1/2 rounded-full bg-white/70" />
           <span className="relative text-[22px] font-bold tracking-[0.05em] text-[#1a3a6e]">
@@ -299,7 +305,7 @@ export default function Home() {
 
             {/* Tools Grid — draggable */}
             <div className="overflow-y-auto px-10 pb-8">
-              <div className="flex flex-wrap" style={{gap: '0px 0px'}}>
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '28px', justifyItems: 'center', alignItems: 'start'}}>
                 {tools.map((t, i) => (
                   <div
                     key={t.id}
@@ -321,17 +327,17 @@ export default function Home() {
                     }}
                     onDragEnd={() => { setDragIdx(null); setOverIdx(null); }}
                     onClick={() => t.route && router.push(t.route)}
-                    className="flex flex-col items-center gap-0 cursor-grab active:cursor-grabbing transition-all duration-150"
+                    className="flex flex-col items-center cursor-grab active:cursor-grabbing"
                     style={{
-                      marginLeft: i === 0 ? '0px' : '-54px',
                       transform: dragIdx === i ? 'scale(1.1)' : overIdx === i && dragIdx !== null ? 'scale(1.05)' : 'scale(1)',
                       opacity: dragIdx === i ? 0.8 : 1,
                       filter: dragIdx === i ? 'drop-shadow(0 8px 20px rgba(0,0,0,0.2))' : 'none',
                       zIndex: dragIdx === i ? 10 : overIdx === i ? 5 : 1,
+                      transition: 'transform 0.15s ease, opacity 0.15s ease, filter 0.15s ease',
                     }}
                   >
-                    <Image src={t.icon} alt={t.label} width={180} height={180} unoptimized style={{width: '180px', height: '180px'}} className="object-contain pointer-events-none" />
-                    <span className="text-[13px] font-medium text-[#1a1a2e] text-center pointer-events-none" style={{marginTop: '-54px'}}>{t.label}</span>
+                    <Image src={t.icon} alt={t.label} width={140} height={140} unoptimized style={{width: '140px', height: '140px', transform: t.iconScale ? `scale(${t.iconScale})` : undefined}} className="object-contain pointer-events-none" />
+                    <span className="text-[13px] font-medium text-[#1a1a2e] text-center pointer-events-none -mt-2">{t.label}</span>
                   </div>
                 ))}
               </div>
