@@ -274,13 +274,18 @@ export default function Home() {
               <div className="flex flex-wrap gap-y-6" style={{gap: '0px 0px'}}>
                 {/* Inbox */}
                 <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" onClick={() => router.push('/inbox')}>
-                  <Image src="/images/tool-inbox.png" alt="Inbox" width={128} height={128} unoptimized style={{width: '128px', height: '128px'}} className="object-contain" />
-                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-38px'}}>Inbox</span>
+                  <Image src="/images/tool-inbox.png" alt="Inbox" width={166} height={166} unoptimized style={{width: '166px', height: '166px'}} className="object-contain" />
+                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-50px'}}>Inbox</span>
                 </div>
                 {/* Drive */}
-                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" style={{marginLeft: '-38px'}}>
-                  <Image src="/images/tool-drive.png" alt="Drive" width={128} height={128} unoptimized style={{width: '128px', height: '128px'}} className="object-contain" />
-                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-38px'}}>Drive</span>
+                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" style={{marginLeft: '-50px'}}>
+                  <Image src="/images/tool-drive.png" alt="Drive" width={166} height={166} unoptimized style={{width: '166px', height: '166px'}} className="object-contain" />
+                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-50px'}}>Drive</span>
+                </div>
+                {/* Teams */}
+                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" style={{marginLeft: '-50px'}}>
+                  <Image src="/images/teams-icon.png" alt="Teams" width={166} height={166} unoptimized style={{width: '166px', height: '166px'}} className="object-contain" />
+                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-50px'}}>Teams</span>
                 </div>
               </div>
             </div>
