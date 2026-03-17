@@ -4,9 +4,37 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+type Tool = { id: string; label: string; icon: string; route?: string };
+
+const DEFAULT_TOOLS: Tool[] = [
+  { id: "inbox", label: "Inbox", icon: "/images/tool-inbox.png", route: "/inbox" },
+  { id: "drive", label: "Drive", icon: "/images/tool-drive.png" },
+  { id: "teams", label: "Teams", icon: "/images/teams-icon.png" },
+  { id: "tasks", label: "Tasks", icon: "/images/tasks-icon.png" },
+  { id: "analytics", label: "Analytics", icon: "/images/analytics-icon.png" },
+];
+
+function loadToolOrder(): Tool[] {
+  if (typeof window === "undefined") return DEFAULT_TOOLS;
+  try {
+    const saved = localStorage.getItem("cloudspace_tool_order");
+    if (!saved) return DEFAULT_TOOLS;
+    const ids: string[] = JSON.parse(saved);
+    const mapped = ids.map((id) => DEFAULT_TOOLS.find((t) => t.id === id)).filter(Boolean) as Tool[];
+    // append any new tools not in saved order
+    for (const t of DEFAULT_TOOLS) { if (!mapped.find((m) => m.id === t.id)) mapped.push(t); }
+    return mapped;
+  } catch { return DEFAULT_TOOLS; }
+}
+
 export default function Home() {
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [tools, setTools] = useState<Tool[]>(DEFAULT_TOOLS);
+  const [dragIdx, setDragIdx] = useState<number | null>(null);
+  const [overIdx, setOverIdx] = useState<number | null>(null);
   const router = useRouter();
+
+  useEffect(() => { setTools(loadToolOrder()); }, []);
 
   useEffect(() => {
     // Redirect to workspace selector if not coming from it
@@ -269,34 +297,43 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Tools Grid — 5 columns */}
+            {/* Tools Grid — draggable */}
             <div className="overflow-y-auto px-10 pb-8">
-              <div className="flex flex-wrap gap-y-6" style={{gap: '0px 0px'}}>
-                {/* Inbox */}
-                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" onClick={() => router.push('/inbox')}>
-                  <Image src="/images/tool-inbox.png" alt="Inbox" width={180} height={180} unoptimized style={{width: '180px', height: '180px'}} className="object-contain" />
-                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-54px'}}>Inbox</span>
-                </div>
-                {/* Drive */}
-                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" style={{marginLeft: '-54px'}}>
-                  <Image src="/images/tool-drive.png" alt="Drive" width={180} height={180} unoptimized style={{width: '180px', height: '180px'}} className="object-contain" />
-                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-54px'}}>Drive</span>
-                </div>
-                {/* Teams */}
-                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" style={{marginLeft: '-54px'}}>
-                  <Image src="/images/teams-icon.png" alt="Teams" width={180} height={180} unoptimized style={{width: '180px', height: '180px'}} className="object-contain" />
-                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-54px'}}>Teams</span>
-                </div>
-                {/* Tasks */}
-                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" style={{marginLeft: '-54px'}}>
-                  <Image src="/images/tasks-icon.png" alt="Tasks" width={180} height={180} unoptimized style={{width: '180px', height: '180px'}} className="object-contain" />
-                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-54px'}}>Tasks</span>
-                </div>
-                {/* Analytics */}
-                <div className="flex flex-col items-center gap-0 cursor-pointer transition-transform hover:scale-105" style={{marginLeft: '-54px'}}>
-                  <Image src="/images/analytics-icon.png" alt="Analytics" width={180} height={180} unoptimized style={{width: '180px', height: '180px'}} className="object-contain" />
-                  <span className="text-[13px] font-medium text-[#1a1a2e] text-center" style={{marginTop: '-54px'}}>Analytics</span>
-                </div>
+              <div className="flex flex-wrap" style={{gap: '0px 0px'}}>
+                {tools.map((t, i) => (
+                  <div
+                    key={t.id}
+                    draggable
+                    onDragStart={(e) => { setDragIdx(i); e.dataTransfer.effectAllowed = "move"; }}
+                    onDragOver={(e) => { e.preventDefault(); setOverIdx(i); }}
+                    onDragLeave={() => setOverIdx(null)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      if (dragIdx !== null && dragIdx !== i) {
+                        const next = [...tools];
+                        const [moved] = next.splice(dragIdx, 1);
+                        next.splice(i, 0, moved);
+                        setTools(next);
+                        localStorage.setItem("cloudspace_tool_order", JSON.stringify(next.map((x) => x.id)));
+                      }
+                      setDragIdx(null);
+                      setOverIdx(null);
+                    }}
+                    onDragEnd={() => { setDragIdx(null); setOverIdx(null); }}
+                    onClick={() => t.route && router.push(t.route)}
+                    className="flex flex-col items-center gap-0 cursor-grab active:cursor-grabbing transition-all duration-150"
+                    style={{
+                      marginLeft: i === 0 ? '0px' : '-54px',
+                      transform: dragIdx === i ? 'scale(1.1)' : overIdx === i && dragIdx !== null ? 'scale(1.05)' : 'scale(1)',
+                      opacity: dragIdx === i ? 0.8 : 1,
+                      filter: dragIdx === i ? 'drop-shadow(0 8px 20px rgba(0,0,0,0.2))' : 'none',
+                      zIndex: dragIdx === i ? 10 : overIdx === i ? 5 : 1,
+                    }}
+                  >
+                    <Image src={t.icon} alt={t.label} width={180} height={180} unoptimized style={{width: '180px', height: '180px'}} className="object-contain pointer-events-none" />
+                    <span className="text-[13px] font-medium text-[#1a1a2e] text-center pointer-events-none" style={{marginTop: '-54px'}}>{t.label}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
