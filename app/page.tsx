@@ -48,14 +48,22 @@ export default function Home() {
 
       {/* NAVBAR — absolute top-0 left-0 right-0 h-[72px] */}
       <nav className="absolute top-0 left-0 right-0 w-full h-[72px] z-30 flex items-center justify-between overflow-hidden bg-white">
-        {/* Logo + Wordmark — left */}
+        {/* Back + Logo + Wordmark — left */}
         <div className="flex items-center">
+          <button
+            onClick={() => { sessionStorage.removeItem("cloudspace_selected"); router.push("/cloudspaces"); }}
+            className="flex items-center justify-center h-[42px] w-[42px] rounded-[8px] bg-[#f3f4f6] ml-3 shrink-0 transition-all hover:bg-[#e5e7eb] hover:shadow-sm active:bg-[#dcdfe3]"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M15 19l-7-7 7-7" stroke="#374151" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
           <Image
             src="/images/cloudspace-logo.png"
             alt="Cloudspace"
             width={128}
             height={128}
-            className="ml-4 object-contain"
+            className="ml-1 object-contain"
           />
           <Image
             src="/images/cloudspace-wordmark.png"
