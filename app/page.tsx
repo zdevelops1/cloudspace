@@ -9,6 +9,15 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    // Redirect to workspace selector if not coming from it
+    const fromCloudspaces = sessionStorage.getItem("cloudspace_selected");
+    if (!fromCloudspaces) {
+      router.replace("/cloudspaces");
+      return;
+    }
+  }, [router]);
+
+  useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (e.ctrlKey) e.preventDefault();
     };

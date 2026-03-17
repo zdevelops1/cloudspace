@@ -67,8 +67,8 @@ const MORE_FOLDERS = [
   { name: "Trash", count: "" },
 ];
 
-function SidebarIcon({ name }: { name: string }) {
-  const s = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6 };
+function SidebarIcon({ name, active }: { name: string; active?: boolean }) {
+  const s = { width: 20, height: 20, viewBox: "0 0 24 24", fill: "none", stroke: active ? "#001d35" : "currentColor", strokeWidth: 1.6 };
   switch (name) {
     case "Inbox": return <svg {...s}><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 14h5l2 3h4l2-3h5"/></svg>;
     case "Starred": return <svg {...s}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01z"/></svg>;
@@ -171,62 +171,62 @@ export default function InboxPage() {
       {/* MAIN */}
       <div className="flex-1 flex overflow-hidden">
         {/* SIDEBAR */}
-        <div className="w-[220px] shrink-0 overflow-y-auto py-1 pl-2 pr-1">
+        <div className="w-[256px] shrink-0 overflow-y-auto pt-1 pb-4 pl-3 pr-2">
           {/* Compose */}
-          <button onClick={() => setComposeOpen(true)} className="flex items-center gap-3 rounded-2xl px-5 py-3.5 mb-3 shadow-sm hover:shadow-md transition-shadow bg-[#c2e7ff]">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#1a1a2e" strokeWidth="2.5" strokeLinecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="#1a1a2e" strokeWidth="2.5" strokeLinecap="round"/></svg>
-            <span className="text-[14px] font-medium text-[#1a1a2e]">Compose</span>
+          <button onClick={() => setComposeOpen(true)} className="flex items-center gap-[10px] rounded-2xl pl-4 pr-6 py-[14px] mb-4 shadow-sm hover:shadow-md transition-shadow bg-[#c2e7ff]">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20.41 4.94l-1.35-1.35a2 2 0 00-2.83 0L3 16.82V21h4.18L20.41 7.77a2 2 0 000-2.83zM14.06 5.77l4.17 4.17" stroke="#1a1a2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span className="text-[14px] font-medium text-[#1a1a2e] tracking-[0.25px]">Compose</span>
           </button>
 
           {/* Folders */}
           {FOLDERS.map((f) => (
             <button key={f.name} onClick={() => { setActiveFolder(f.name); setSelectedEmail(null); }}
-              className={`w-full flex items-center gap-3 pl-3 pr-2 py-[6px] rounded-r-full text-[13px] transition-colors ${activeFolder === f.name ? "bg-[#d3e3fd] font-bold text-[#001d35]" : "text-[#1a1a2e] hover:bg-black/[0.04]"}`}>
-              <span className="w-[18px] shrink-0 text-[#444]"><SidebarIcon name={f.name} /></span>
+              className={`w-full flex items-center gap-[12px] h-[32px] pl-[12px] pr-[12px] rounded-full text-[14px] transition-colors tracking-[0.2px] ${activeFolder === f.name ? "bg-[#d3e3fd] font-bold text-[#001d35]" : "text-[#444746] hover:bg-[#e8eaed]/60 font-medium"}`}>
+              <span className="w-[20px] h-[20px] shrink-0 flex items-center justify-center"><SidebarIcon name={f.name} active={activeFolder === f.name} /></span>
               <span className="flex-1 text-left truncate">{f.name}</span>
-              {f.count && <span className="text-[12px] text-[#444] font-normal">{f.count}</span>}
+              {f.count && <span className="text-[11px] text-[#444746] font-normal tabular-nums">{f.count}</span>}
             </button>
           ))}
 
           {/* Less/More toggle */}
-          <button onClick={() => setShowMore(!showMore)} className="w-full flex items-center gap-3 pl-3 pr-2 py-[6px] rounded-r-full text-[13px] text-[#1a1a2e] hover:bg-black/[0.04]">
-            <span className="w-[18px] shrink-0 text-[#444]"><SidebarIcon name={showMore ? "Less" : "More"} /></span>
+          <button onClick={() => setShowMore(!showMore)} className="w-full flex items-center gap-[12px] h-[32px] pl-[12px] pr-[12px] rounded-full text-[14px] font-medium text-[#444746] hover:bg-[#e8eaed]/60 tracking-[0.2px]">
+            <span className="w-[20px] h-[20px] shrink-0 flex items-center justify-center"><SidebarIcon name={showMore ? "Less" : "More"} /></span>
             <span className="flex-1 text-left">{showMore ? "Less" : "More"}</span>
           </button>
 
           {showMore && MORE_FOLDERS.map((f) => (
             <button key={f.name} onClick={() => { setActiveFolder(f.name); setSelectedEmail(null); }}
-              className={`w-full flex items-center gap-3 pl-3 pr-2 py-[6px] rounded-r-full text-[13px] transition-colors ${activeFolder === f.name ? "bg-[#d3e3fd] font-bold text-[#001d35]" : "text-[#1a1a2e] hover:bg-black/[0.04]"}`}>
-              <span className="w-[18px] shrink-0 text-[#444]"><SidebarIcon name={f.name} /></span>
+              className={`w-full flex items-center gap-[12px] h-[32px] pl-[12px] pr-[12px] rounded-full text-[14px] transition-colors tracking-[0.2px] ${activeFolder === f.name ? "bg-[#d3e3fd] font-bold text-[#001d35]" : "text-[#444746] hover:bg-[#e8eaed]/60 font-medium"}`}>
+              <span className="w-[20px] h-[20px] shrink-0 flex items-center justify-center"><SidebarIcon name={f.name} active={activeFolder === f.name} /></span>
               <span className="flex-1 text-left truncate">{f.name}</span>
-              {f.count && <span className="text-[12px] text-[#444] font-normal">{f.count}</span>}
+              {f.count && <span className="text-[11px] text-[#444746] font-normal tabular-nums">{f.count}</span>}
             </button>
           ))}
 
           {showMore && (
             <>
-              <button className="w-full flex items-center gap-3 pl-3 pr-2 py-[6px] rounded-r-full text-[13px] text-[#1a1a2e] hover:bg-black/[0.04]">
-                <span className="w-[18px] shrink-0 text-[#444]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></span>
+              <button className="w-full flex items-center gap-[12px] h-[32px] pl-[12px] pr-[12px] rounded-full text-[14px] font-medium text-[#444746] hover:bg-[#e8eaed]/60 tracking-[0.2px]">
+                <span className="w-[20px] h-[20px] shrink-0 flex items-center justify-center text-[#444746]"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></span>
                 <span className="flex-1 text-left">Manage labels</span>
               </button>
-              <button className="w-full flex items-center gap-3 pl-3 pr-2 py-[6px] rounded-r-full text-[13px] text-[#1a1a2e] hover:bg-black/[0.04]">
-                <span className="w-[18px] shrink-0 text-[#444]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+              <button className="w-full flex items-center gap-[12px] h-[32px] pl-[12px] pr-[12px] rounded-full text-[14px] font-medium text-[#444746] hover:bg-[#e8eaed]/60 tracking-[0.2px]">
+                <span className="w-[20px] h-[20px] shrink-0 flex items-center justify-center text-[#444746]"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
                 <span className="flex-1 text-left">Create new label</span>
               </button>
             </>
           )}
 
           {/* Labels */}
-          <div className="mt-4 mb-2 flex items-center justify-between pl-3 pr-2">
-            <span className="text-[12px] font-medium text-[#444]">Labels</span>
-            <button className="flex h-[20px] w-[20px] items-center justify-center rounded-full hover:bg-black/[0.06]">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <div className="mt-5 mb-1 border-t border-black/[0.06] pt-4 flex items-center justify-between pl-[12px] pr-[12px]">
+            <span className="text-[14px] font-medium text-[#444746] tracking-[0.2px]">Labels</span>
+            <button className="flex h-[28px] w-[28px] items-center justify-center rounded-full hover:bg-[#e8eaed]/60">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444746" strokeWidth="1.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </button>
           </div>
           {[{ n: "Work", c: "#4fc3f7" }, { n: "Personal", c: "#7c4dff" }, { n: "Finance", c: "#ff9800" }, { n: "Urgent", c: "#e53935" }].map((l) => (
-            <div key={l.n} className="flex items-center gap-3 pl-3 pr-2 py-[5px] rounded-r-full cursor-pointer hover:bg-black/[0.04]">
-              <span className="w-[10px] h-[10px] rounded-sm" style={{ background: l.c }} />
-              <span className="text-[13px] text-[#1a1a2e]">{l.n}</span>
+            <div key={l.n} className="flex items-center gap-[12px] h-[32px] pl-[12px] pr-[12px] rounded-full cursor-pointer hover:bg-[#e8eaed]/60">
+              <span className="w-[10px] h-[10px] rounded-sm shrink-0" style={{ background: l.c }} />
+              <span className="text-[14px] font-medium text-[#444746] tracking-[0.2px]">{l.n}</span>
             </div>
           ))}
         </div>
