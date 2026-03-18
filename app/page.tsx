@@ -7,17 +7,19 @@ import { useRouter } from "next/navigation";
 type Tool = { id: string; label: string; icon: string; route?: string; iconScale?: number };
 
 const DEFAULT_TOOLS: Tool[] = [
-  { id: "inbox", label: "Inbox", icon: "/images/tool-inbox.png", route: "/inbox" },
-  { id: "drive", label: "Drive", icon: "/images/tool-drive.png" },
-  { id: "teams", label: "Teams", icon: "/images/teams-icon.png" },
-  { id: "tasks", label: "Tasks", icon: "/images/tasks-icon.png" },
-  { id: "analytics", label: "Analytics", icon: "/images/analytics-icon.png" },
+  { id: "inbox", label: "Inbox", icon: "/images/inbox-icon.png?v=2", route: "/inbox", iconScale: 0.72 },
+  { id: "drive", label: "Cloud", icon: "/images/drive-icon.png?v=2", iconScale: 0.72 },
+  { id: "teams", label: "Teams", icon: "/images/teams-icon.png", iconScale: 0.72 },
+  { id: "tasks", label: "Tasks", icon: "/images/tasks-icon.png", iconScale: 0.72 },
+  { id: "analytics", label: "Analytics", icon: "/images/analytics-icon.png", iconScale: 0.72 },
   { id: "docs", label: "Docs", icon: "/images/docs-icon.png" },
   { id: "sheets", label: "Sheets", icon: "/images/sheets-icon.png" },
   { id: "slides", label: "Slides", icon: "/images/slides-icon.png" },
   { id: "forms", label: "Forms", icon: "/images/forms-icon.png" },
   { id: "meet", label: "Meet", icon: "/images/meet-icon.png" },
   { id: "crm", label: "CRM", icon: "/images/crm-icon.png" },
+  { id: "social", label: "Social Manager", icon: "/images/social-icon.png", iconScale: 0.72 },
+  { id: "editor", label: "Editor", icon: "/images/editor-icon.png", iconScale: 0.72 },
 ];
 
 function loadToolOrder(): Tool[] {
