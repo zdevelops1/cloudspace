@@ -19,7 +19,10 @@ const DEFAULT_TOOLS: Tool[] = [
   { id: "meet", label: "Meet", icon: "/images/meet-icon.png" },
   { id: "crm", label: "CRM", icon: "/images/crm-icon.png" },
   { id: "social", label: "Social Manager", icon: "/images/social-icon.png", iconScale: 0.72 },
+  { id: "ads", label: "Ads Manager", icon: "/images/ads-icon.png", iconScale: 0.72 },
+  { id: "seo", label: "SEO", icon: "/images/seo-icon.png", iconScale: 0.72 },
   { id: "editor", label: "Editor", icon: "/images/editor-icon.png", iconScale: 0.72 },
+  { id: "code", label: "Code", icon: "/images/code-icon.png", iconScale: 0.72 },
 ];
 
 function loadToolOrder(): Tool[] {
@@ -40,7 +43,9 @@ export default function Home() {
   const [tools, setTools] = useState<Tool[]>(DEFAULT_TOOLS);
   const [dragIdx, setDragIdx] = useState<number | null>(null);
   const [overIdx, setOverIdx] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
+  const filteredTools = tools.filter((t) => t.label.toLowerCase().includes(searchQuery.toLowerCase()));
 
   useEffect(() => { setTools(loadToolOrder()); }, []);
 
@@ -277,12 +282,12 @@ export default function Home() {
       {/* TOOLS Modal */}
       {toolsOpen && (
         <>
-          <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" onClick={() => setToolsOpen(false)} />
+          <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" onClick={() => { setToolsOpen(false); setSearchQuery(""); }} />
           <div className="fixed z-50 w-[720px] h-[680px] rounded-3xl bg-white shadow-2xl flex flex-col" style={{top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
             {/* Header */}
             <div className="relative flex items-center justify-center px-10 pt-10 pb-8">
               <h2 className="text-[28px] font-bold text-[#1a1a2e]">Cloudspace Tools</h2>
-              <button onClick={() => setToolsOpen(false)} className="absolute right-8 top-8 flex h-[36px] w-[36px] items-center justify-center rounded-full text-black/40 transition-colors hover:bg-black/5 hover:text-black/70">
+              <button onClick={() => { setToolsOpen(false); setSearchQuery(""); }} className="absolute right-8 top-8 flex h-[36px] w-[36px] items-center justify-center rounded-full text-black/40 transition-colors hover:bg-black/5 hover:text-black/70">
                 <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
                   <line x1="4" y1="4" x2="14" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   <line x1="14" y1="4" x2="4" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -291,24 +296,29 @@ export default function Home() {
             </div>
 
             {/* Search bar */}
-            <div className="mx-16 mb-10">
-              <div className="flex items-center gap-3 rounded-xl border border-black/[0.06] bg-[#f2f3f5] px-5 py-3.5">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <circle cx="7.5" cy="7.5" r="5.5" stroke="#aaa" strokeWidth="1.8" />
-                  <line x1="11.5" y1="11.5" x2="16" y2="16" stroke="#aaa" strokeWidth="1.8" strokeLinecap="round" />
+            <div className="mx-10 mb-8">
+              <div className="flex items-center gap-3 h-[44px] rounded-[12px] border border-black/[0.08] bg-[#f3f4f6] px-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                <svg width="16" height="16" viewBox="0 0 18 18" fill="none" className="shrink-0">
+                  <circle cx="7.5" cy="7.5" r="5.5" stroke="#9ca3af" strokeWidth="2" />
+                  <line x1="11.8" y1="11.8" x2="16" y2="16" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" />
                 </svg>
                 <input
                   type="text"
                   placeholder="Search Cloudspace tools..."
-                  className="flex-1 bg-transparent text-[15px] text-[#1a1a2e] placeholder-black/25 outline-none"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 bg-transparent text-[14px] text-[#1a1a2e] placeholder-black/30 outline-none"
                 />
               </div>
             </div>
 
             {/* Tools Grid — draggable */}
-            <div className="overflow-y-auto px-10 pb-8">
+            <div className="flex-1 min-h-0 overflow-y-auto px-10 pb-8" style={{scrollbarWidth: 'thin', scrollbarColor: 'rgba(0,0,0,0.15) transparent'}}>
+              {filteredTools.length === 0 ? (
+                <div className="flex items-center justify-center py-16 text-[15px] text-black/30">No tools found</div>
+              ) : (
               <div style={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '28px', justifyItems: 'center', alignItems: 'start'}}>
-                {tools.map((t, i) => (
+                {filteredTools.map((t, i) => (
                   <div
                     key={t.id}
                     draggable
@@ -343,6 +353,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+              )}
             </div>
           </div>
         </>
